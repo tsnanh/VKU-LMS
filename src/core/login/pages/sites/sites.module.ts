@@ -18,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CoreLoginSitesPage } from './sites';
 import { CoreDirectivesModule } from '@directives/directives.module';
 import { CoreComponentsModule } from '@components/components.module';
+import { IonicModule } from 'ionic-angular/module';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { CoreComponentsModule } from '@components/components.module';
         CoreDirectivesModule,
         CoreComponentsModule,
         IonicPageModule.forChild(CoreLoginSitesPage),
-        TranslateModule.forChild()
+        TranslateModule.forChild(),
+        IonicModule
     ],
     entryComponents: [
         CoreLoginSitesPage

@@ -14,15 +14,15 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, COMPILER_OPTIONS, Injector } from '@angular/core';
-import { IonicApp, IonicModule, Platform, Content, ScrollEvent, Config, Refresher } from 'ionic-angular';
+import { COMPILER_OPTIONS, Injector, NgModule } from '@angular/core';
+import { Config, Content, IonicApp, IonicModule, Platform, Refresher, ScrollEvent } from 'ionic-angular';
 import { assert } from 'ionic-angular/util/util';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 import { LocationStrategy } from '@angular/common';
 import { MockLocationStrategy } from '@angular/common/testing';
 
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
@@ -356,17 +356,17 @@ export const WP_PROVIDER: any = null;
 })
 export class AppModule {
     constructor(
-            platform: Platform,
-            initDelegate: CoreInitDelegate,
-            updateManager: CoreUpdateManagerProvider,
-            config: Config,
-            sitesProvider: CoreSitesProvider,
-            fileProvider: CoreFileProvider,
-            private eventsProvider: CoreEventsProvider,
-            cronDelegate: CoreCronDelegate,
-            siteInfoCronHandler: CoreSiteInfoCronHandler,
-            injector: Injector,
-            ) {
+        platform: Platform,
+        initDelegate: CoreInitDelegate,
+        updateManager: CoreUpdateManagerProvider,
+        config: Config,
+        sitesProvider: CoreSitesProvider,
+        fileProvider: CoreFileProvider,
+        private eventsProvider: CoreEventsProvider,
+        cronDelegate: CoreCronDelegate,
+        siteInfoCronHandler: CoreSiteInfoCronHandler,
+        injector: Injector,
+    ) {
         // Register a handler for platform ready.
         initDelegate.registerProcess({
             name: 'CorePlatformReady',
@@ -374,7 +374,7 @@ export class AppModule {
             blocking: true,
             load: platform.ready
         });
-
+        
         // Register the update manager as an init process.
         initDelegate.registerProcess(updateManager);
 
@@ -406,27 +406,47 @@ export class AppModule {
         // Set transition animation.
         config.setTransition('core-page-transition', CorePageTransition);
         config.setTransition('core-modal-lateral-transition', CoreModalLateralTransition);
-
+        
         // Decorate ion-content.
         this.decorateIonContent();
-
+        
         // Patch ion-refresher.
         this.patchIonRefresher();
     }
-
+    
+    /**
+     * Patch ion-refresher to fix video menus and possibly other fixed positioned elements.
+     */
+    patchIonRefresher(): void {
+        /**
+         * Original code: https://github.com/ionic-team/ionic/blob/v3.9.3/src/components/refresher/refresher.ts#L468
+         * Changed: translateZ(0px) is not added to the CSS transform.
+         */
+        Refresher.prototype._setCss = function (y: number, duration: string, overflowVisible: boolean, delay: string): void {
+            this._appliedStyles = (y > 0);
+            
+            const content = this._content;
+            const Css = this._plt.Css;
+            content.setScrollElementStyle(Css.transform, ((y > 0) ? 'translateY(' + y + 'px)' : ''));
+            content.setScrollElementStyle(Css.transitionDuration, duration);
+            content.setScrollElementStyle(Css.transitionDelay, delay);
+            content.setScrollElementStyle('overflow', (overflowVisible ? 'hidden' : ''));
+        };
+    }
+    
     /**
      * Decorate ion-content to make our ion-tabs work.
      * https://github.com/ionic-team/ionic/issues/14483
      */
     protected decorateIonContent(): void {
-
+        
         const parsePxUnit = (val: string): number => {
             return (val.indexOf('px') > 0) ? parseInt(val, 10) : 0;
         };
 
         // We need to convert the prototype to any because _readDimensions is private.
         // tslint:disable: typedef
-        (<any> Content.prototype)._readDimensions = function() {
+        (<any> Content.prototype)._readDimensions = function () {
             const cachePaddingTop = this._pTop;
             const cachePaddingRight = this._pRight;
             const cachePaddingBottom = this._pBottom;
@@ -472,7 +492,7 @@ export class AppModule {
                     scrollEvent.contentElement = ele;
 
                     if (this._fullscreen) {
-                    // ******** DOM READ ****************
+                        // ******** DOM READ ****************
                         computedStyle = getComputedStyle(ele);
                         this._pTop = parsePxUnit(computedStyle.paddingTop);
                         this._pBottom = parsePxUnit(computedStyle.paddingBottom);
@@ -578,14 +598,14 @@ export class AppModule {
         const eventsProvider = this.eventsProvider;
 
         // tslint:disable: typedef
-        (<any> Content).prototype.ngAfterViewInit = function() {
+        (<any> Content).prototype.ngAfterViewInit = function () {
             assert(this.getFixedElement(), 'fixed element was not found');
             assert(this.getScrollElement(), 'scroll element was not found');
-
+            
             const scroll = this._scroll;
             scroll.ev.fixedElement = this.getFixedElement();
             scroll.ev.scrollElement = this.getScrollElement();
-
+            
             // Subscribe to the scroll start
             scroll.onScrollStart = (ev) => {
                 this.ionScrollStart.emit(ev);
@@ -611,7 +631,7 @@ export class AppModule {
         };
 
         // tslint:disable: typedef
-        (<any> Content).prototype.ngOnDestroy = function() {
+        (<any> Content).prototype.ngOnDestroy = function () {
             this._scLsn && this._scLsn();
             this._viewCtrlReadSub && this._viewCtrlReadSub.unsubscribe();
             this._viewCtrlWriteSub && this._viewCtrlWriteSub.unsubscribe();
@@ -620,25 +640,5 @@ export class AppModule {
             this._footerEle = this._scLsn = this._scroll = null;
             this._orientationObs && this._orientationObs.off();
         };
-    }
-
-    /**
-     * Patch ion-refresher to fix video menus and possibly other fixed positioned elements.
-     */
-    patchIonRefresher(): void {
-        /**
-         * Original code: https://github.com/ionic-team/ionic/blob/v3.9.3/src/components/refresher/refresher.ts#L468
-         * Changed: translateZ(0px) is not added to the CSS transform.
-         */
-        Refresher.prototype._setCss = function(y: number, duration: string, overflowVisible: boolean, delay: string): void {
-            this._appliedStyles = (y > 0);
-
-            const content = this._content;
-            const Css = this._plt.Css;
-            content.setScrollElementStyle(Css.transform, ((y > 0) ? 'translateY(' + y + 'px)' : ''));
-            content.setScrollElementStyle(Css.transitionDuration, duration);
-            content.setScrollElementStyle(Css.transitionDelay, delay);
-            content.setScrollElementStyle('overflow', (overflowVisible ? 'hidden' : ''));
-          };
     }
 }

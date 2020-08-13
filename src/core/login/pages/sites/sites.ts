@@ -15,7 +15,7 @@
 import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { CoreLoggerProvider } from '@providers/logger';
-import { CoreSitesProvider, CoreSiteBasicInfo } from '@providers/sites';
+import { CoreSiteBasicInfo, CoreSitesProvider } from '@providers/sites';
 import { CoreDomUtilsProvider } from '@providers/utils/dom';
 import { CorePushNotificationsProvider } from '@core/pushnotifications/providers/pushnotifications';
 import { CoreLoginHelperProvider } from '../../providers/helper';
@@ -24,7 +24,7 @@ import { CoreFilterProvider } from '@core/filter/providers/filter';
 /**
  * Page that displays the list of stored sites.
  */
-@IonicPage({ segment: 'core-login-sites' })
+@IonicPage({segment: 'core-login-sites'})
 @Component({
     selector: 'page-core-login-sites',
     templateUrl: 'sites.html',
@@ -33,13 +33,13 @@ export class CoreLoginSitesPage {
     sites: CoreSiteBasicInfo[];
     showDelete: boolean;
     protected logger;
-
+    
     constructor(private domUtils: CoreDomUtilsProvider,
-            private filterProvider: CoreFilterProvider,
-            private sitesProvider: CoreSitesProvider,
-            private loginHelper: CoreLoginHelperProvider,
-            logger: CoreLoggerProvider,
-            private pushNotificationsProvider: CorePushNotificationsProvider) {
+                private filterProvider: CoreFilterProvider,
+                private sitesProvider: CoreSitesProvider,
+                private loginHelper: CoreLoginHelperProvider,
+                logger: CoreLoggerProvider,
+                private pushNotificationsProvider: CorePushNotificationsProvider) {
         this.logger = logger.getInstance('CoreLoginSitesPage');
     }
 
@@ -89,12 +89,12 @@ export class CoreLoginSitesPage {
             siteName = site.siteName;
 
         this.filterProvider.formatText(siteName, {clean: true, singleLine: true, filter: false}, [], site.id).then((siteName) => {
-
-            this.domUtils.showDeleteConfirm('core.login.confirmdeletesite', { sitename: siteName }).then(() => {
+    
+            this.domUtils.showDeleteConfirm('core.login.confirmdeletesite', {sitename: siteName}).then(() => {
                 this.sitesProvider.deleteSite(site.id).then(() => {
                     this.sites.splice(index, 1);
                     this.showDelete = false;
-
+            
                     // If there are no sites left, go to add site.
                     this.sitesProvider.hasSites().then((hasSites) => {
                         if (!hasSites) {

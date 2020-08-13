@@ -77,7 +77,7 @@
     "@ionic-native/screen-orientation": "4.20.0",
     "@ionic-native/splash-screen": "4.20.0",
     "@ionic-native/sqlite": "4.20.0",
-    "@ionic-native/status-bar": "4.20.0",
+    "@ionic-native/status-bar": "^4.20.0",
     "@ionic-native/web-intent": "4.20.0",
     "@ionic-native/zip": "4.20.0",
     "@ngx-translate/core": "8.0.0",
@@ -169,7 +169,8 @@
   "cordova": {
     "platforms": [
       "ios",
-      "browser"
+      "browser",
+      "android"
     ],
     "plugins": {
       "com-darryncampbell-cordova-plugin-intent": {},

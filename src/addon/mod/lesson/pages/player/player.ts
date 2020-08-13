@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, NavParams, Content, PopoverController, ModalController, Modal, NavController } from 'ionic-angular';
+import { Content, IonicPage, Modal, ModalController, NavController, NavParams, PopoverController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CoreAppProvider } from '@providers/app';
 import { CoreEventsProvider } from '@providers/events';
@@ -24,7 +24,7 @@ import { CoreDomUtilsProvider } from '@providers/utils/dom';
 import { CoreTimeUtilsProvider } from '@providers/utils/time';
 import { CoreUrlUtilsProvider } from '@providers/utils/url';
 import { CoreUtilsProvider } from '@providers/utils/utils';
-import { MoodleMobileApp } from '../../../../../app/app.component';
+import { MoodleMobileApp } from '@app/app.component';
 import { AddonModLessonProvider } from '../../providers/lesson';
 import { AddonModLessonOfflineProvider } from '../../providers/lesson-offline';
 import { AddonModLessonSyncProvider } from '../../providers/lesson-sync';

@@ -12,10 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Optional, ElementRef, Renderer, ViewEncapsulation, forwardRef, ViewChild, Input,
-    OnDestroy } from '@angular/core';
 import {
-    Tabs, Tab, NavController, ViewController, App, Config, Platform, DeepLinker, Keyboard, RootNode, NavOptions
+    Component,
+    ElementRef,
+    forwardRef,
+    Input,
+    OnDestroy,
+    Optional,
+    Renderer,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
+import {
+    App,
+    Config,
+    DeepLinker,
+    Keyboard,
+    NavController,
+    NavOptions,
+    Platform,
+    RootNode,
+    Tab,
+    Tabs,
+    ViewController
 } from 'ionic-angular';
 import { CoreIonTabComponent } from './ion-tab';
 import { CoreUtilsProvider, PromiseDefer } from '@providers/utils/utils';
@@ -33,63 +52,21 @@ import { TranslateService } from '@ngx-translate/core';
     selector: 'core-ion-tabs',
     templateUrl: 'core-ion-tabs.html',
     encapsulation: ViewEncapsulation.None,
-    providers: [{provide: RootNode, useExisting: forwardRef(() => CoreIonTabsComponent) }]
+    providers: [{provide: RootNode, useExisting: forwardRef(() => CoreIonTabsComponent)}]
 })
 export class CoreIonTabsComponent extends Tabs implements OnDestroy {
-
-    /**
-     * Whether the tabs have been loaded. If defined, tabs won't be initialized until it's set to true.
-     */
-    @Input() set loaded(val: boolean) {
-        this._loaded = this.utils.isTrueOrOne(val);
-
-        if (this.viewInit && !this.initialized) {
-            // Use a setTimeout to make sure the tabs have been loaded.
-            setTimeout(() => {
-                this.initTabs();
-            });
-        }
-    }
-
-    @Input() selectedDisabled: boolean; // Whether the initial tab selected can be a disabled tab.
-
-    @ViewChild('originalTabs') originalTabsRef: ElementRef;
-
-    _loaded: boolean; // Whether tabs have been loaded.
-    hidden = false; // Whether to show/hide tabs.
-
     /**
      * List of tabs that haven't been initialized yet. This is required because IonTab calls add() on the constructor,
      * but we need it to be called in OnInit to be able to determine the tab position.
      */
     protected tabsNotInit: CoreIonTabComponent[] = [];
-
     protected tabsIds: string[] = []; // An array to keep the order of tab IDs when they're sorted.
     protected tabsNotInitIds: string[] = []; // An array to keep the order of tab IDs for non-init tabs.
     protected viewInit = false; // Whether the view has been initialized.
     protected initialized = false; // Whether tabs have been initialized.
-
     protected firstSelectedTab: string;
     protected unregisterBackButtonAction: any;
     protected selectTabPromiseDefer: PromiseDefer;
-
-    constructor(protected utils: CoreUtilsProvider, protected appProvider: CoreAppProvider, @Optional() parent: NavController,
-            @Optional() viewCtrl: ViewController, _app: App, config: Config, elementRef: ElementRef, _plt: Platform,
-            renderer: Renderer, _linker: DeepLinker, protected domUtils: CoreDomUtilsProvider,
-            protected translate: TranslateService, keyboard?: Keyboard) {
-        super(parent, viewCtrl, _app, config, elementRef, _plt, renderer, _linker, keyboard);
-    }
-
-    /**
-     * View has been initialized.
-     */
-    ngAfterViewInit(): void {
-        this.viewInit = true;
-
-        super.ngAfterViewInit();
-
-        this.registerBackButtonAction();
-    }
 
     /**
      * Add a new tab if it isn't already in the list of tabs.
@@ -138,47 +115,15 @@ export class CoreIonTabsComponent extends Tabs implements OnDestroy {
             this.tabsNotInit.push(tab);
             this.tabsNotInitIds.push(id);
         }
-
+    
         return id;
     }
-
-    /**
-     * Initialize the tabs.
-     *
-     * @return Promise resolved when done.
-     */
-    initTabs(): Promise<any> {
-        if (!this.initialized && (this._loaded || typeof this._loaded == 'undefined')) {
-            this.initialized = true;
-
-            return super.initTabs().then(() => {
-                // Tabs initialized. Force select the tab if it's not enabled.
-                if (this.selectedDisabled && typeof this.selectedIndex != 'undefined') {
-                    const tab = this.getByIndex(this.selectedIndex);
-                    if (tab && !tab.enabled) {
-                        this.select(tab);
-                    }
-                }
-
-                this.firstSelectedTab = this._selectHistory[0] || null;
-            }).finally(() => {
-                // If there was a select promise pending to be resolved, do it now.
-                if (this.selectTabPromiseDefer) {
-                    this.selectTabPromiseDefer.resolve();
-                    delete this.selectTabPromiseDefer;
-                }
-            });
-        } else {
-            // Tabs not loaded yet. Set the tab bar position so the tab bar is shown, it'll have a spinner.
-            this.setTabbarPosition(-1, 0);
-
-            return Promise.resolve();
-        }
-    }
-
+    
     /**
      * Register back button action.
      */
+    
+    /*
     protected registerBackButtonAction(): void {
         this.unregisterBackButtonAction = this.appProvider.registerBackButtonAction(() => {
             let tab = this.previousTab(true);
@@ -218,7 +163,7 @@ export class CoreIonTabsComponent extends Tabs implements OnDestroy {
 
             return false;
         }, 250);
-    }
+    } */
 
     /**
      * Remove a tab from the list of tabs.
@@ -235,14 +180,17 @@ export class CoreIonTabsComponent extends Tabs implements OnDestroy {
         } else {
             // Not found, search in the list of non-init tabs.
             index = this.tabsNotInit.indexOf(tab);
-
+    
             if (index != -1) {
                 this.tabsNotInit.splice(index, 1);
                 this.tabsNotInitIds.splice(index, 1);
             }
         }
     }
-
+    
+    @Input() selectedDisabled: boolean; // Whether the initial tab selected can be a disabled tab.
+    @ViewChild('originalTabs') originalTabsRef: ElementRef;
+    
     /**
      * Sort the tabs, keeping the same order as in the original list.
      */
@@ -259,7 +207,7 @@ export class CoreIonTabsComponent extends Tabs implements OnDestroy {
                     newTabsIds[originalIndex] = this.tabsIds[index];
                 }
             });
-
+            
             // Remove undefined values. It can happen if the view has some tabs that were destroyed but weren't removed yet.
             this._tabs = newTabs.filter((tab) => {
                 return typeof tab != 'undefined';
@@ -269,12 +217,125 @@ export class CoreIonTabsComponent extends Tabs implements OnDestroy {
             });
         }
     }
-
+    
+    hidden = false; // Whether to show/hide tabs.
+    
+    constructor(protected utils: CoreUtilsProvider, protected appProvider: CoreAppProvider, @Optional() parent: NavController,
+                @Optional() viewCtrl: ViewController, _app: App, config: Config, elementRef: ElementRef, _plt: Platform,
+                renderer: Renderer, _linker: DeepLinker, protected domUtils: CoreDomUtilsProvider,
+                protected translate: TranslateService, keyboard?: Keyboard) {
+        super(parent, viewCtrl, _app, config, elementRef, _plt, renderer, _linker, keyboard);
+    }
+    
+    _loaded: boolean; // Whether tabs have been loaded.
+    
+    /**
+     * Whether the tabs have been loaded. If defined, tabs won't be initialized until it's set to true.
+     */
+    @Input() set loaded(val: boolean) {
+        this._loaded = this.utils.isTrueOrOne(val);
+        
+        if (this.viewInit && !this.initialized) {
+            // Use a setTimeout to make sure the tabs have been loaded.
+            setTimeout(() => {
+                this.initTabs();
+            });
+        }
+    }
+    
+    /**
+     * Initialize the tabs.
+     *
+     * @return Promise resolved when done.
+     */
+    initTabs(): Promise<any> {
+        if (!this.initialized && (this._loaded || typeof this._loaded == 'undefined')) {
+            this.initialized = true;
+            
+            return super.initTabs().then(() => {
+                // Tabs initialized. Force select the tab if it's not enabled.
+                if (this.selectedDisabled && typeof this.selectedIndex != 'undefined') {
+                    const tab = this.getByIndex(this.selectedIndex);
+                    if (tab && !tab.enabled) {
+                        this.select(tab);
+                    }
+                }
+                
+                this.firstSelectedTab = this._selectHistory[0] || null;
+            }).finally(() => {
+                // If there was a select promise pending to be resolved, do it now.
+                if (this.selectTabPromiseDefer) {
+                    this.selectTabPromiseDefer.resolve();
+                    delete this.selectTabPromiseDefer;
+                }
+            });
+        } else {
+            // Tabs not loaded yet. Set the tab bar position so the tab bar is shown, it'll have a spinner.
+            this.setTabbarPosition(-1, 0);
+            
+            return Promise.resolve();
+        }
+    }
+    
+    /**
+     * Change tabs visibility to show/hide them from the view.
+     *
+     * @param visible If show or hide the tabs.
+     */
+    changeVisibility(visible: boolean): void {
+        if (this.hidden == visible) {
+            // Change needed.
+            this.hidden = !visible;
+            
+            setTimeout(() => {
+                this.viewCtrl.getContent().resize();
+            });
+        }
+    }
+    
+    /**
+     * Component destroyed.
+     */
+    ngOnDestroy(): void {
+        // Unregister the custom back button action for this page
+        this.unregisterBackButtonAction && this.unregisterBackButtonAction();
+    }
+    
+    /**
+     * Confirm if the user wants to go to the root of the current tab.
+     *
+     * @param tab Tab to go to root.
+     * @return Promise resolved when confirmed.
+     */
+    confirmGoToRoot(tab: Tab): Promise<any> {
+        if (!tab || !tab.isSelected || (tab.getActive() && tab.getActive().isFirst())) {
+            // Tab not selected or is already at root, no need to confirm.
+            return Promise.resolve();
+        } else {
+            if (tab.tabTitle) {
+                return this.domUtils.showConfirm(this.translate.instant('core.confirmgotabroot', {name: tab.tabTitle}));
+            } else {
+                return this.domUtils.showConfirm(this.translate.instant('core.confirmgotabrootdefault'));
+            }
+        }
+    }
+    
+    /**
+     * View has been initialized.
+     */
+    ngAfterViewInit(): void {
+        this.viewInit = true;
+        
+        super.ngAfterViewInit();
+        /* Disable due to bad practice
+        this.registerBackButtonAction(); */
+    }
+    
     /**
      * Select a tab.
      *
      * @param tabOrIndex Index, or the Tab instance, of the tab to select.
-     * @param Nav options.
+     * @param opts
      * @param fromUrl Whether to load from a URL.
      * @param manualClick Whether the user manually clicked the tab.
      * @return Promise resolved when selected.
@@ -286,12 +347,8 @@ export class CoreIonTabsComponent extends Tabs implements OnDestroy {
             if (manualClick) {
                 // If we'll go to the root of the current tab, ask the user to confirm first.
                 const tab = typeof tabOrIndex == 'number' ? this.getByIndex(tabOrIndex) : tabOrIndex;
-
-                return this.confirmGoToRoot(tab).then(() => {
-                    return super.select(tabOrIndex, opts, fromUrl);
-                }, () => {
-                    // User cancelled.
-                });
+    
+                return super.select(tabOrIndex, opts, fromUrl);
             }
 
             return super.select(tabOrIndex, opts, fromUrl);
@@ -320,20 +377,15 @@ export class CoreIonTabsComponent extends Tabs implements OnDestroy {
         if (this.initialized) {
             const tab = this.getByIndex(index);
             if (tab) {
-                return this.confirmGoToRoot(tab).then(() => {
-                    // User confirmed, go to root.
-                    return tab.goToRoot({animate: tab.isSelected, updateUrl: true, isNavRoot: true}).then(() => {
-                        // Tab not previously selected. Select it after going to root.
-                        if (!tab.isSelected) {
-                            return this.select(tab, {animate: false, updateUrl: true, isNavRoot: true});
-                        }
-                    });
-                }, () => {
-                    // User cancelled.
+                return tab.goToRoot({animate: tab.isSelected, updateUrl: true, isNavRoot: true}).then(() => {
+                    // Tab not previously selected. Select it after going to root.
+                    if (!tab.isSelected) {
+                        return this.select(tab, {animate: false, updateUrl: true, isNavRoot: true});
+                    }
                 });
             }
-
             // Not found.
+    
             return Promise.reject(null);
         } else {
             // Tabs not initialized yet. Mark it as "selectedIndex" input so it's treated when the tabs are initialized.
@@ -343,49 +395,6 @@ export class CoreIonTabsComponent extends Tabs implements OnDestroy {
             this.selectTabPromiseDefer = this.selectTabPromiseDefer || this.utils.promiseDefer();
 
             return this.selectTabPromiseDefer.promise;
-        }
-    }
-
-    /**
-     * Change tabs visibility to show/hide them from the view.
-     *
-     * @param visible If show or hide the tabs.
-     */
-    changeVisibility(visible: boolean): void {
-        if (this.hidden == visible) {
-            // Change needed.
-            this.hidden = !visible;
-
-            setTimeout(() => {
-                this.viewCtrl.getContent().resize();
-            });
-        }
-    }
-
-    /**
-     * Component destroyed.
-     */
-    ngOnDestroy(): void {
-        // Unregister the custom back button action for this page
-        this.unregisterBackButtonAction && this.unregisterBackButtonAction();
-    }
-
-    /**
-     * Confirm if the user wants to go to the root of the current tab.
-     *
-     * @param tab Tab to go to root.
-     * @return Promise resolved when confirmed.
-     */
-    confirmGoToRoot(tab: Tab): Promise<any> {
-        if (!tab || !tab.isSelected || (tab.getActive() && tab.getActive().isFirst())) {
-            // Tab not selected or is already at root, no need to confirm.
-            return Promise.resolve();
-        } else {
-            if (tab.tabTitle) {
-                return this.domUtils.showConfirm(this.translate.instant('core.confirmgotabroot', {name: tab.tabTitle}));
-            } else {
-                return this.domUtils.showConfirm(this.translate.instant('core.confirmgotabrootdefault'));
-            }
         }
     }
 

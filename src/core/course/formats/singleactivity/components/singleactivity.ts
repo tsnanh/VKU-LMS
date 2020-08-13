@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnChanges, SimpleChange, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnChanges, Output, SimpleChange, ViewChild } from '@angular/core';
 import { CoreCourseModuleDelegate } from '../../../providers/module-delegate';
 import { CoreCourseUnsupportedModuleComponent } from '../../../components/unsupported-module/unsupported-module';
-import { CoreDynamicComponent } from '../../../../../components/dynamic-component/dynamic-component';
+import { CoreDynamicComponent } from '@components/dynamic-component/dynamic-component';
 
 /**
  * Component to display single activity format. It will determine the right component to use and instantiate it.
