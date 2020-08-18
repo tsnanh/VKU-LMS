@@ -374,7 +374,7 @@ export class AppModule {
             blocking: true,
             load: platform.ready
         });
-        
+
         // Register the update manager as an init process.
         initDelegate.registerProcess(updateManager);
 
@@ -406,14 +406,14 @@ export class AppModule {
         // Set transition animation.
         config.setTransition('core-page-transition', CorePageTransition);
         config.setTransition('core-modal-lateral-transition', CoreModalLateralTransition);
-        
+
         // Decorate ion-content.
         this.decorateIonContent();
-        
+
         // Patch ion-refresher.
         this.patchIonRefresher();
     }
-    
+
     /**
      * Patch ion-refresher to fix video menus and possibly other fixed positioned elements.
      */
@@ -424,7 +424,7 @@ export class AppModule {
          */
         Refresher.prototype._setCss = function (y: number, duration: string, overflowVisible: boolean, delay: string): void {
             this._appliedStyles = (y > 0);
-            
+
             const content = this._content;
             const Css = this._plt.Css;
             content.setScrollElementStyle(Css.transform, ((y > 0) ? 'translateY(' + y + 'px)' : ''));
@@ -433,13 +433,13 @@ export class AppModule {
             content.setScrollElementStyle('overflow', (overflowVisible ? 'hidden' : ''));
         };
     }
-    
+
     /**
      * Decorate ion-content to make our ion-tabs work.
      * https://github.com/ionic-team/ionic/issues/14483
      */
     protected decorateIonContent(): void {
-        
+
         const parsePxUnit = (val: string): number => {
             return (val.indexOf('px') > 0) ? parseInt(val, 10) : 0;
         };
@@ -601,11 +601,11 @@ export class AppModule {
         (<any> Content).prototype.ngAfterViewInit = function () {
             assert(this.getFixedElement(), 'fixed element was not found');
             assert(this.getScrollElement(), 'scroll element was not found');
-            
+
             const scroll = this._scroll;
             scroll.ev.fixedElement = this.getFixedElement();
             scroll.ev.scrollElement = this.getScrollElement();
-            
+
             // Subscribe to the scroll start
             scroll.onScrollStart = (ev) => {
                 this.ionScrollStart.emit(ev);

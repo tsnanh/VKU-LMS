@@ -1,7 +1,7 @@
 {
   "app_id": "vn.udn.vku.elearning",
   "appname": "VKU LMS",
-  "desktopappname": "Elearning VKU",
+  "desktopappname": "Hệ thống đào tạo trực tuyến Elearning - VKU",
   "versioncode": 1,
   "versionname": "1.0.0",
   "cache_update_frequency_usually": 420000,
@@ -79,7 +79,7 @@
   ],
   "customurlscheme": "moodlemobile",
   "siteurl": "http://elearning.vku.udn.vn",
-  "sitename": "Elearning VKU",
+  "sitename": "Hệ thống đào tạo trực tuyến Elearning - VKU",
   "multisitesdisplay": "",
   "onlyallowlistedsites": false,
   "skipssoconfirmation": false,

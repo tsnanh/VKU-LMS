@@ -1,42 +1,45 @@
 {
   "project_info": {
-    "project_number": "",
-    "firebase_url": "",
-    "project_id": "",
-    "storage_bucket": ""
+    "project_number": "362141500043",
+    "firebase_url": "https://vku-lms.firebaseio.com",
+    "project_id": "vku-lms",
+    "storage_bucket": "vku-lms.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:111111111111:android:1111111111111111",
+        "mobilesdk_app_id": "1:362141500043:android:912473dbc47c1743048a8e",
         "android_client_info": {
           "package_name": "vn.udn.vku.elearning"
         }
       },
       "oauth_client": [
         {
-          "client_id": "",
+          "client_id": "362141500043-ilqfagh1flmn4piuu8p8mefkjuoe2fha.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.udn.vku.elearning",
+            "certificate_hash": "9ab46e81b31da9824b63a88596a37b3b468322ac"
+          }
+        },
+        {
+          "client_id": "362141500043-h8edgadtij5pd55f558ucf8vd8i7iuhi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": ""
-        },
-        {
-          "current_key": ""
+          "current_key": "AIzaSyAgP7QvPoiucPYVSwiyhp2ECTvluN0y67k"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "362141500043-h8edgadtij5pd55f558ucf8vd8i7iuhi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
