@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget android-versionCode="1" id="vn.udn.vku.elearning" ios-CFBundleVersion="1.0.0.0" version="1.0.0" versionCode="1" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>VKU LMS</name>
-    <description>VKU Online Training System</description>
+    <description>Hệ thống đào tạo trực tuyến - Trường Đại học Công nghệ thông tin và truyền thông Việt - Hàn</description>
     <author email="tsnanh.18it3@vku.udn.vn" href="http://elearning.vku.udn.vn">vku.udn.vn</author>
     <content src="index.html" />
     <access origin="*" />
@@ -37,7 +37,7 @@
     <preference name="StatusBarBackgroundColor" value="#ff6659" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="5000" />
+    <preference name="SplashScreenDelay" value="10000" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="android-minSdkVersion" value="22" />

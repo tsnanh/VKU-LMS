@@ -244,22 +244,7 @@ export class CoreUrlUtilsProvider {
      * @return Promise resolved with the Moodle docs URL.
      */
     getDocsUrl(release?: string, page: string = 'Mobile_app'): Promise<string> {
-        let docsUrl = 'https://docs.moodle.org/en/' + page;
-
-        if (typeof release != 'undefined') {
-            const version = release.substr(0, 3).replace('.', '');
-            // Check is a valid number.
-            if (parseInt(version) >= 24) {
-                // Append release number.
-                docsUrl = docsUrl.replace('https://docs.moodle.org/', 'https://docs.moodle.org/' + version + '/');
-            }
-        }
-
-        return this.langProvider.getCurrentLanguage().then((lang) => {
-            return docsUrl.replace('/en/', '/' + lang + '/');
-        }).catch(() => {
-            return docsUrl;
-        });
+        return Promise.resolve("http://elearning.vku.udn.vn/mod/forum/view.php?id=7");
     }
 
     /**

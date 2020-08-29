@@ -40,8 +40,8 @@ export class CoreLoginSiteHelpPage {
         this.canScanQR = this.utils.canScanQR();
         this.urlImageHtml = CoreLoginHelperProvider.FAQ_URL_IMAGE_HTML;
         this.qrCodeImageHtml = CoreLoginHelperProvider.FAQ_QRCODE_IMAGE_HTML;
-        this.setupLinkHtml = '<a href="https://moodle.com/getstarted/" title="' +
-                this.translate.instant('core.login.faqsetupsitelinktitle') + '">https://moodle.com/getstarted/</a>';
+        this.setupLinkHtml = '<a href="http://elearning.vku.udn.vn/mod/forum/view.php?id=7" title="' +
+                this.translate.instant('core.login.faqsetupsitelinktitle') + '">http://elearning.vku.udn.vn/mod/forum/view.php?id=7</a>';
     }
 
     /**

@@ -839,7 +839,7 @@
     "core.login.policyagree": "Bạn phải đồng ý với bản thoả thuận này trước khi tiếp tục sử dụng hệ thống này. Bạn có đồng ý?",
     "core.login.policyagreement": "Bản thoả thuận chính sách trang",
     "core.login.policyagreementclick": "Liên kết đến bản thỏa thuận chính sách trang",
-    "core.login.potentialidps": "Đăng nhập bằng tài khoản của bạn trên:",
+    "core.login.potentialidps": "Đăng nhập bằng:",
     "core.login.profileinvaliddata": "Giá trị không hợp lệ",
     "core.login.recaptchachallengeimage": "reCAPTCHA thách thức hình ảnh",
     "core.login.recaptchaexpired": "Xác minh đã hết hạn. Trả lời câu hỏi bảo mật một lần nữa.",
